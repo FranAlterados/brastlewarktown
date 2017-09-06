@@ -28,7 +28,7 @@ public class RestClient {
             @Override
             public void intercept(RequestInterceptor.RequestFacade request) {
                 request.addHeader("Accept", "application/json");
-//                request.addHeader("Authorization", "Bearer " + auth);
+                request.addHeader("Content-type", "text/plain; charset=UTF-8");
 
             }
         };

@@ -3,6 +3,7 @@ package com.fduranortega.brastlewarktown.rest.dto.mappers;
 import com.fduranortega.brastlewarktown.model.Person;
 import com.fduranortega.brastlewarktown.rest.dto.DTOPerson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,14 +12,28 @@ import java.util.List;
 public class PersonMapper {
 
     public static Person convert(DTOPerson dtoPerson) {
-        //TODO
+        Person person = new Person();
 
-        return null;
+        person.setId(dtoPerson.getId());
+        person.setName(dtoPerson.getName());
+        person.setPhoto(dtoPerson.getThumbnail());
+        person.setAge(dtoPerson.getAge());
+        person.setWeight(dtoPerson.getWeight());
+        person.setHeight(dtoPerson.getHeight());
+        person.setHairColor(dtoPerson.getHairColor());
+        person.setProfessions(dtoPerson.getProfessions());
+        person.setFriends(dtoPerson.getFriends());
+
+        return person;
     }
 
     public static List<Person> convertList(List<DTOPerson> lstDtoPerson) {
-        //TODO
+        List<Person> lstPerson = new ArrayList<>();
 
-        return null;
+        for (DTOPerson dtoPerson : lstDtoPerson) {
+            lstPerson.add(convert(dtoPerson));
+        }
+
+        return lstPerson;
     }
 }
