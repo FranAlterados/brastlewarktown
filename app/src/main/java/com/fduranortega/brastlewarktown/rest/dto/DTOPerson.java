@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by FranAlterados on 6/9/17.
  */
-public class PersonDTO {
+public class DTOPerson {
     String id;
     String name;
     String thumbnail;

@@ -9,4 +9,6 @@ import java.util.List;
  */
 public interface PersonListListener {
     public void dataResponse(List<Person> data);
+
+    public void dataError(String message);
 }

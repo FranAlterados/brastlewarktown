@@ -2,6 +2,7 @@ package com.fduranortega.brastlewarktown.personlist.implementations;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import com.fduranortega.brastlewarktown.R;
 import com.fduranortega.brastlewarktown.model.Person;
@@ -21,11 +22,13 @@ public class PersonListViewImpl extends AppCompatActivity implements PersonListV
 
         //TODO inyectar con dagger
         presenter = new PersonListPresenterImpl(this);
+
+        presenter.displayData();
     }
 
     @Override
     public void displayData(List<Person> data) {
-
+        Toast.makeText(PersonListViewImpl.this, "Hola", Toast.LENGTH_SHORT).show();
     }
 
     @Override

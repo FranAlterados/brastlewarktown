@@ -1,6 +1,6 @@
 package com.fduranortega.brastlewarktown.rest.service;
 
-import com.fduranortega.brastlewarktown.rest.dto.PersonDTO;
+import com.fduranortega.brastlewarktown.rest.dto.DTOTown;
 
 import retrofit.Callback;
 import retrofit.http.GET;
@@ -10,5 +10,5 @@ import retrofit.http.GET;
  */
 public interface PersonService {
     @GET("/data.json")
-    public void getPersons(Callback<PersonDTO> callback);
+    public void getPersons(Callback<DTOTown> callback);
 }

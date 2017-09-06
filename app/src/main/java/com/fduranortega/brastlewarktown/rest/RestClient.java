@@ -47,4 +47,7 @@ public class RestClient {
         personService = restAdapter.create(PersonService.class);
     }
 
+    public PersonService getPersonService() {
+        return personService;
+    }
 }

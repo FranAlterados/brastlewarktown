@@ -47,4 +47,9 @@ public class PersonListPresenterImpl implements PersonListPresenter, PersonListL
     public void dataResponse(List<Person> data) {
         view.displayData(data);
     }
+
+    @Override
+    public void dataError(String message) {
+        view.showError(message);
+    }
 }
