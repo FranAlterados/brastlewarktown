@@ -1,5 +1,6 @@
 package com.fduranortega.brastlewarktown.personlist.implementations;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fduranortega.brastlewarktown.R;
@@ -36,8 +37,8 @@ public class PersonListInteractorImpl implements PersonListInteractor {
 
     @Override
     public void getData(final PersonListListener listener) {
-//        getFromService(listener);
-        getFromFile(listener);
+        getFromService(listener);
+//        getFromFile(listener);
     }
 
     private void getFromService(final PersonListListener listener) {
@@ -58,7 +59,14 @@ public class PersonListInteractorImpl implements PersonListInteractor {
     private void getFromFile(final PersonListListener listener) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-//        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+        objectMapper.setVisibilityChecker(objectMapper.getSerializationConfig().getDefaultVisibilityChecker()
+                .withFieldVisibility(JsonAutoDetect.Visibility.ANY)
+                .withGetterVisibility(JsonAutoDetect.Visibility.NONE)
+                .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
+                .withCreatorVisibility(JsonAutoDetect.Visibility.NONE));
+
+
 
         try {
             InputStream is = App.INSTANCE.getResources().openRawResource(R.raw.data);

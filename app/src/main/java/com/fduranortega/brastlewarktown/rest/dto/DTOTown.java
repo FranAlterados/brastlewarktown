@@ -12,7 +12,7 @@ public class DTOTown {
         return Brastlewark;
     }
 
-    public void setBrastlewark(List<DTOPerson> brastlewark) {
-        Brastlewark = brastlewark;
+    public void setBrastlewark(List<DTOPerson> Brastlewark) {
+        this.Brastlewark = Brastlewark;
     }
 }
