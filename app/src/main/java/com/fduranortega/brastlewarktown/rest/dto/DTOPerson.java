@@ -12,7 +12,7 @@ public class DTOPerson {
     String age;
     String weight;
     String height;
-    String hairColor;
+    String hair_color;
     List<String> professions;
     List<String> friends;
 
@@ -65,11 +65,11 @@ public class DTOPerson {
     }
 
     public String getHairColor() {
-        return hairColor;
+        return hair_color;
     }
 
     public void setHairColor(String hairColor) {
-        this.hairColor = hairColor;
+        this.hair_color = hairColor;
     }
 
     public List<String> getProfessions() {

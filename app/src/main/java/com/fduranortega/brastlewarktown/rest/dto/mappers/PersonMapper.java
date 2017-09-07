@@ -30,8 +30,10 @@ public class PersonMapper {
     public static List<Person> convertList(List<DTOPerson> lstDtoPerson) {
         List<Person> lstPerson = new ArrayList<>();
 
-        for (DTOPerson dtoPerson : lstDtoPerson) {
-            lstPerson.add(convert(dtoPerson));
+        if (lstDtoPerson != null) {
+            for (DTOPerson dtoPerson : lstDtoPerson) {
+                lstPerson.add(convert(dtoPerson));
+            }
         }
 
         return lstPerson;

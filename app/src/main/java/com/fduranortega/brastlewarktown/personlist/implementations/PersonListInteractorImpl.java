@@ -66,8 +66,6 @@ public class PersonListInteractorImpl implements PersonListInteractor {
                 .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
                 .withCreatorVisibility(JsonAutoDetect.Visibility.NONE));
 
-
-
         try {
             InputStream is = App.INSTANCE.getResources().openRawResource(R.raw.data);
             Writer writer = new StringWriter();
