@@ -19,28 +19,50 @@
             android:padding="6dp">
 
             <ImageView
-                android:id="@+id/personPhoto"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:id="@+id/ivPersonPhoto"
+                android:layout_width="62dp"
+                android:layout_height="62dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginRight="16dp"
                 android:scaleType="centerCrop" />
 
             <TextView
-                android:id="@+id/personName"
+                android:id="@+id/tvPersonName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_toRightOf="@+id/personPhoto"
-                android:textSize="18sp" />
+                android:layout_toRightOf="@+id/ivPersonPhoto"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/personAge"
+                android:id="@+id/tvPersonAge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/personName"
-                android:layout_toRightOf="@+id/personPhoto" />
+                android:layout_below="@+id/tvPersonName"
+                android:layout_toRightOf="@+id/ivPersonPhoto" />
+
+            <TextView
+                android:id="@+id/tvPersonHairColor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/tvPersonName" />
+
+            <TextView
+                android:id="@+id/tvPersonWeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvPersonAge"
+                android:layout_toRightOf="@+id/ivPersonPhoto" />
+
+            <TextView
+                android:id="@+id/tvPersonHeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/tvPersonAge" />
 
         </RelativeLayout>
 
