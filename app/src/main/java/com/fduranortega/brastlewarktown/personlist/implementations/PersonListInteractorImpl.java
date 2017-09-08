@@ -6,8 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fduranortega.brastlewarktown.R;
 import com.fduranortega.brastlewarktown.app.App;
 import com.fduranortega.brastlewarktown.model.Person;
+import com.fduranortega.brastlewarktown.personlist.interfaces.PersonListCallback;
 import com.fduranortega.brastlewarktown.personlist.interfaces.PersonListInteractor;
-import com.fduranortega.brastlewarktown.personlist.interfaces.PersonListListener;
 import com.fduranortega.brastlewarktown.rest.dto.DTOTown;
 import com.fduranortega.brastlewarktown.rest.dto.mappers.PersonMapper;
 
@@ -36,12 +36,12 @@ public class PersonListInteractorImpl implements PersonListInteractor {
 
 
     @Override
-    public void getData(final PersonListListener listener) {
+    public void getData(final PersonListCallback listener) {
         getFromService(listener);
 //        getFromFile(listener);
     }
 
-    private void getFromService(final PersonListListener listener) {
+    private void getFromService(final PersonListCallback listener) {
         App.getRestClient().getPersonService().getPersons(new Callback<DTOTown>() {
             @Override
             public void success(DTOTown dtoTown, Response response) {
@@ -56,7 +56,7 @@ public class PersonListInteractorImpl implements PersonListInteractor {
         });
     }
 
-    private void getFromFile(final PersonListListener listener) {
+    private void getFromFile(final PersonListCallback callback) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
@@ -82,9 +82,9 @@ public class PersonListInteractorImpl implements PersonListInteractor {
             String jsonString = writer.toString();
             DTOTown dto = objectMapper.readValue(jsonString, DTOTown.class);
             List<Person> lstPerson = PersonMapper.convertList(dto.getBrastlewark());
-            listener.dataResponse(lstPerson);
+            callback.dataResponse(lstPerson);
         } catch (IOException e) {
-            listener.dataError(e.getMessage());
+            callback.dataError(e.getMessage());
             e.printStackTrace();
         }
     }

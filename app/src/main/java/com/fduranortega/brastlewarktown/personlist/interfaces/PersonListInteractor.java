@@ -5,5 +5,5 @@ package com.fduranortega.brastlewarktown.personlist.interfaces;
  */
 public interface PersonListInteractor {
 
-    public void getData(PersonListListener listener);
+    public void getData(PersonListCallback listener);
 }
