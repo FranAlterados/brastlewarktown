@@ -31,6 +31,6 @@ public class App extends Application {
         REST_CLIENT = new RestClient();
 
         Realm.init(this);
-        Realm REALM = Realm.getDefaultInstance();
+        REALM = Realm.getDefaultInstance();
     }
 }

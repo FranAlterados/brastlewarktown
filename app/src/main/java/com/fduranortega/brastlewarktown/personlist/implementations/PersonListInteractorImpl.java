@@ -1,5 +1,7 @@
 package com.fduranortega.brastlewarktown.personlist.implementations;
 
+import android.widget.Toast;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,6 +10,9 @@ import com.fduranortega.brastlewarktown.app.App;
 import com.fduranortega.brastlewarktown.model.Person;
 import com.fduranortega.brastlewarktown.personlist.interfaces.PersonListCallback;
 import com.fduranortega.brastlewarktown.personlist.interfaces.PersonListInteractor;
+import com.fduranortega.brastlewarktown.realm.ColorDB;
+import com.fduranortega.brastlewarktown.realm.PersonDB;
+import com.fduranortega.brastlewarktown.realm.ProfessionDB;
 import com.fduranortega.brastlewarktown.rest.dto.DTOTown;
 import com.fduranortega.brastlewarktown.rest.dto.mappers.PersonMapper;
 
@@ -19,7 +24,11 @@ import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.List;
+import java.util.UUID;
 
+import io.realm.Realm;
+import io.realm.RealmList;
+import io.realm.RealmResults;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -37,9 +46,18 @@ public class PersonListInteractorImpl implements PersonListInteractor {
 
     @Override
     public void getData(final PersonListCallback listener) {
+        //Si tenemos internet
         getFromService(listener);
+        //Si no tenemos internet pero tenemos datos en la bd
+        //getFileFromBD(listener);
+        //Si no tenemos internet ni tenemos datos en la bd
 //        getFromFile(listener);
     }
+
+    private void getFileFromBD(PersonListCallback listener) {
+        //TODO
+    }
+
 
     private void getFromService(final PersonListCallback listener) {
         App.getRestClient().getPersonService().getPersons(new Callback<DTOTown>() {
@@ -47,6 +65,7 @@ public class PersonListInteractorImpl implements PersonListInteractor {
             public void success(DTOTown dtoTown, Response response) {
                 List<Person> lstPerson = PersonMapper.convertList(dtoTown.getBrastlewark());
                 listener.dataResponse(lstPerson);
+                setDataToBD(lstPerson);
             }
 
             @Override
@@ -55,6 +74,82 @@ public class PersonListInteractorImpl implements PersonListInteractor {
             }
         });
     }
+
+    private void setDataToBD(final List<Person> lstPerson) {
+        //Clean DB
+        App.getRealm().beginTransaction();
+        App.getRealm().deleteAll();
+        App.getRealm().commitTransaction();
+
+        App.getRealm().executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm bgRealm) {
+
+
+                for (Person person : lstPerson) {
+                    //Check if color is create to get it or create it
+                    ColorDB personColor;
+                    RealmResults<ColorDB> colors = bgRealm.where(ColorDB.class)
+                            .equalTo("color", person.getHairColor()).findAll();
+                    if (colors.size() > 0) {
+                        personColor = colors.get(0);
+                    } else {
+//                        bgRealm.beginTransaction();
+                        personColor = new ColorDB();
+                        personColor.setId(UUID.randomUUID().toString());
+                        personColor.setColor(person.getHairColor());
+                        personColor = bgRealm.copyToRealm(personColor);
+//                        bgRealm.commitTransaction();
+                    }
+
+                    //Check if job is create to get it or create it
+                    RealmList<ProfessionDB> lstProfessions = new RealmList<>();
+                    for (String profession : person.getProfessions()) {
+                        ProfessionDB personProfession;
+                        RealmResults<ProfessionDB> professions = bgRealm.where(ProfessionDB.class)
+                                .equalTo("profession", profession).findAll();
+                        if (professions.size() > 0) {
+                            personProfession = professions.get(0);
+                        } else {
+//                            bgRealm.beginTransaction();
+                            personProfession = new ProfessionDB();
+                            personProfession.setId(UUID.randomUUID().toString());
+                            personProfession.setProfession(profession);
+                            personProfession = bgRealm.copyToRealm(personProfession);
+//                            bgRealm.commitTransaction();
+                        }
+                        lstProfessions.add(personProfession);
+                    }
+//                    bgRealm.beginTransaction();
+                    PersonDB personDB = new PersonDB();
+
+                    personDB.setId(person.getId());
+                    personDB.setName(person.getName());
+                    personDB.setPhoto(person.getPhoto());
+                    personDB.setAge(person.getAge());
+                    personDB.setWeight(person.getWeight());
+                    personDB.setHeight(person.getHeight());
+                    personDB.setHairColor(personColor);
+                    personDB.setProfessions(lstProfessions);
+
+                    bgRealm.copyToRealm(personDB);
+//                    bgRealm.commitTransaction();
+                }
+
+                //second round to make friend relationships
+
+
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                Toast.makeText(App.INSTANCE.getApplicationContext(), "Realm Finish", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+    }
+
 
     private void getFromFile(final PersonListCallback callback) {
         ObjectMapper objectMapper = new ObjectMapper();
