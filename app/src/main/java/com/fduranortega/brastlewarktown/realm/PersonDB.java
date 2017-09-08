@@ -15,6 +15,7 @@ public class PersonDB extends RealmObject {
     String age;
     String weight;
     String height;
+    String friendNames;
     ColorDB hairColor;
     RealmList<ProfessionDB> professions;
     RealmList<PersonDB> friends;
@@ -89,5 +90,13 @@ public class PersonDB extends RealmObject {
 
     public void setFriends(RealmList<PersonDB> friends) {
         this.friends = friends;
+    }
+
+    public String getFriendNames() {
+        return friendNames;
+    }
+
+    public void setFriendNames(String friendNames) {
+        this.friendNames = friendNames;
     }
 }

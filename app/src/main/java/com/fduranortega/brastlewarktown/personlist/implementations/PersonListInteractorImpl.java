@@ -23,6 +23,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -129,6 +130,16 @@ public class PersonListInteractorImpl implements PersonListInteractor {
                     personDB.setAge(person.getAge());
                     personDB.setWeight(person.getWeight());
                     personDB.setHeight(person.getHeight());
+                    //Fix because Realm doesnt support List<String>
+                    String friendNames = "";
+                    for (String friendName : person.getFriends()) {
+                        if (friendNames != "") {
+                            friendNames += ",";
+                        }
+                        friendNames += friendName;
+                    }
+                    personDB.setFriendNames(friendNames);
+
                     personDB.setHairColor(personColor);
                     personDB.setProfessions(lstProfessions);
 
@@ -137,7 +148,16 @@ public class PersonListInteractorImpl implements PersonListInteractor {
                 }
 
                 //second round to make friend relationships
-
+                RealmResults<PersonDB> allPersonsDB = bgRealm.where(PersonDB.class).findAll();
+                for (PersonDB personDB : allPersonsDB) {
+                    List<String> lstNames = Arrays.asList(personDB.getFriendNames().split(","));
+                    for (String friendName : lstNames) {
+                        PersonDB friend = bgRealm.where(PersonDB.class).equalTo("name", friendName).findFirst();
+                        if (friend != null) {
+                            personDB.getFriends().add(friend);
+                        }
+                    }
+                }
 
             }
         }, new Realm.Transaction.OnSuccess() {
