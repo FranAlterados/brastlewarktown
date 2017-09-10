@@ -20,6 +20,7 @@ import java.util.List;
  */
 public class RVPersonAdapter extends RecyclerView.Adapter<RVPersonAdapter.PersonViewHolder> {
 
+    private static RecyclerViewClickListener itemListener;
     List<Person> lstPerson;
     Context context;
 
@@ -68,6 +69,10 @@ public class RVPersonAdapter extends RecyclerView.Adapter<RVPersonAdapter.Person
         notifyDataSetChanged();
     }
 
+    public void setItemListener(RecyclerViewClickListener itemListener) {
+        RVPersonAdapter.itemListener = itemListener;
+    }
+
     public static class PersonViewHolder extends RecyclerView.ViewHolder {
         CardView cvPerson;
         ImageView ivPersonPhoto;
@@ -86,6 +91,14 @@ public class RVPersonAdapter extends RecyclerView.Adapter<RVPersonAdapter.Person
             tvPersonHairColor = (TextView) itemView.findViewById(R.id.tvPersonHairColor);
             tvPersonWeight = (TextView) itemView.findViewById(R.id.tvPersonWeight);
             tvPersonHeight = (TextView) itemView.findViewById(R.id.tvPersonHeight);
+
+            cvPerson.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    itemListener.recyclerViewListClicked(view, getLayoutPosition()
+                    );
+                }
+            });
         }
     }
 }

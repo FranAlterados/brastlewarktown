@@ -17,7 +17,7 @@ public interface PersonListView {
 
     public void showError(String message);
 
-    public void clickPerson();
+    public void clickPerson(Person person);
 
     public void clickFilter();
 }

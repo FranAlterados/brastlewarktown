@@ -1,16 +1,20 @@
 package com.fduranortega.brastlewarktown.personlist.implementations;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.Toast;
 
 import com.fduranortega.brastlewarktown.R;
 import com.fduranortega.brastlewarktown.model.Person;
+import com.fduranortega.brastlewarktown.persondetail.implementations.PersonDetailViewImpl;
 import com.fduranortega.brastlewarktown.personlist.interfaces.PersonListPresenter;
 import com.fduranortega.brastlewarktown.personlist.interfaces.PersonListView;
 import com.fduranortega.brastlewarktown.personlist.ui.RVPersonAdapter;
+import com.fduranortega.brastlewarktown.personlist.ui.RecyclerViewClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +61,14 @@ public class PersonListViewImpl extends AppCompatActivity implements PersonListV
         rvPersons.setLayoutManager(llm);
 
         adapter = new RVPersonAdapter(lstPerson);
+        adapter.setItemListener(new RecyclerViewClickListener() {
+            @Override
+            public void recyclerViewListClicked(View v, int position) {
+                Person personClicked = lstPerson.get(position);
+                clickPerson(personClicked);
+            }
+        });
+
         rvPersons.setAdapter(adapter);
     }
 
@@ -65,8 +77,10 @@ public class PersonListViewImpl extends AppCompatActivity implements PersonListV
     }
 
     @Override
-    public void clickPerson() {
-
+    public void clickPerson(Person person) {
+        Intent intent = new Intent(this, PersonDetailViewImpl.class);
+        intent.putExtra("id", person.getId());
+        startActivity(intent);
     }
 
     @Override
