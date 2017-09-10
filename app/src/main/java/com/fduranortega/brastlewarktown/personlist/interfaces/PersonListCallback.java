@@ -11,4 +11,8 @@ public interface PersonListCallback {
     public void dataResponse(List<Person> data);
 
     public void dataError(String message);
+
+    public void showLoading();
+
+    public void hideLoading();
 }

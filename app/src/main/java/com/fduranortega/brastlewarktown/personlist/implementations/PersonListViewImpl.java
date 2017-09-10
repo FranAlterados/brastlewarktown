@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import com.fduranortega.brastlewarktown.R;
 import com.fduranortega.brastlewarktown.model.Person;
@@ -40,7 +41,7 @@ public class PersonListViewImpl extends AppCompatActivity implements PersonListV
         initRecyclerView();
 
 
-        presenter.displayData();
+        presenter.getData();
     }
 
     @Override
@@ -75,16 +76,16 @@ public class PersonListViewImpl extends AppCompatActivity implements PersonListV
 
     @Override
     public void showLoading() {
-
+        //TODO
     }
 
     @Override
     public void hideLoading() {
-
+        //TODO
     }
 
     @Override
     public void showError(String message) {
-
+        Toast.makeText(PersonListViewImpl.this, message, Toast.LENGTH_SHORT).show();
     }
 }

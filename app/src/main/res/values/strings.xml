@@ -2,4 +2,5 @@
     <string name="app_name">BrastlewarkTown</string>
     <string name="urlApi">https://raw.githubusercontent.com/rrafols/mobile_test/master</string>
     <string name="title_activity_person_detail_view_impl">PersonDetailViewImpl</string>
+    <string name="service_error">Service Error</string>
 </resources>

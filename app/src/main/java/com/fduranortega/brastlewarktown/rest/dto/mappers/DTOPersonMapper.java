@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by FranAlterados on 6/9/17.
  */
-public class PersonMapper {
+public class DTOPersonMapper {
 
     public static Person convert(DTOPerson dtoPerson) {
         Person person = new Person();

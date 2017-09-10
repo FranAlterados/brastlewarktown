@@ -1,7 +1,5 @@
 package com.fduranortega.brastlewarktown.personlist.implementations;
 
-import android.widget.Toast;
-
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,7 +12,7 @@ import com.fduranortega.brastlewarktown.realm.ColorDB;
 import com.fduranortega.brastlewarktown.realm.PersonDB;
 import com.fduranortega.brastlewarktown.realm.ProfessionDB;
 import com.fduranortega.brastlewarktown.rest.dto.DTOTown;
-import com.fduranortega.brastlewarktown.rest.dto.mappers.PersonMapper;
+import com.fduranortega.brastlewarktown.rest.dto.mappers.DTOPersonMapper;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,7 +21,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -60,18 +57,21 @@ public class PersonListInteractorImpl implements PersonListInteractor {
     }
 
 
-    private void getFromService(final PersonListCallback listener) {
+    private void getFromService(final PersonListCallback callback) {
+        callback.showLoading();
         App.getRestClient().getPersonService().getPersons(new Callback<DTOTown>() {
             @Override
             public void success(DTOTown dtoTown, Response response) {
-                List<Person> lstPerson = PersonMapper.convertList(dtoTown.getBrastlewark());
-                listener.dataResponse(lstPerson);
+                List<Person> lstPerson = DTOPersonMapper.convertList(dtoTown.getBrastlewark());
+                callback.dataResponse(lstPerson);
+                callback.hideLoading();
                 setDataToBD(lstPerson);
             }
 
             @Override
             public void failure(RetrofitError error) {
-                listener.dataError(error.getMessage());
+                callback.dataError(App.INSTANCE.getApplicationContext().getString(R.string.service_error));
+                callback.hideLoading();
             }
         });
     }
@@ -131,14 +131,14 @@ public class PersonListInteractorImpl implements PersonListInteractor {
                     personDB.setWeight(person.getWeight());
                     personDB.setHeight(person.getHeight());
                     //Fix because Realm doesnt support List<String>
-                    String friendNames = "";
-                    for (String friendName : person.getFriends()) {
-                        if (friendNames != "") {
-                            friendNames += ",";
-                        }
-                        friendNames += friendName;
-                    }
-                    personDB.setFriendNames(friendNames);
+//                    String friendNames = "";
+//                    for (String friendName : person.getFriends()) {
+//                        if (friendNames != "") {
+//                            friendNames += ",";
+//                        }
+//                        friendNames += friendName;
+//                    }
+//                    personDB.setFriendNames(friendNames);
 
                     personDB.setHairColor(personColor);
                     personDB.setProfessions(lstProfessions);
@@ -148,22 +148,22 @@ public class PersonListInteractorImpl implements PersonListInteractor {
                 }
 
                 //second round to make friend relationships
-                RealmResults<PersonDB> allPersonsDB = bgRealm.where(PersonDB.class).findAll();
-                for (PersonDB personDB : allPersonsDB) {
-                    List<String> lstNames = Arrays.asList(personDB.getFriendNames().split(","));
-                    for (String friendName : lstNames) {
-                        PersonDB friend = bgRealm.where(PersonDB.class).equalTo("name", friendName).findFirst();
-                        if (friend != null) {
-                            personDB.getFriends().add(friend);
-                        }
-                    }
-                }
+//                RealmResults<PersonDB> allPersonsDB = bgRealm.where(PersonDB.class).findAll();
+//                for (PersonDB personDB : allPersonsDB) {
+//                    List<String> lstNames = Arrays.asList(personDB.getFriendNames().split(","));
+//                    for (String friendName : lstNames) {
+//                        PersonDB friend = bgRealm.where(PersonDB.class).equalTo("name", friendName).findFirst();
+//                        if (friend != null) {
+//                            personDB.getFriends().add(friend);
+//                        }
+//                    }
+//                }
 
             }
         }, new Realm.Transaction.OnSuccess() {
             @Override
             public void onSuccess() {
-                Toast.makeText(App.INSTANCE.getApplicationContext(), "Realm Finish", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(App.INSTANCE.getApplicationContext(), "Realm Finish", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -196,7 +196,7 @@ public class PersonListInteractorImpl implements PersonListInteractor {
             }
             String jsonString = writer.toString();
             DTOTown dto = objectMapper.readValue(jsonString, DTOTown.class);
-            List<Person> lstPerson = PersonMapper.convertList(dto.getBrastlewark());
+            List<Person> lstPerson = DTOPersonMapper.convertList(dto.getBrastlewark());
             callback.dataResponse(lstPerson);
         } catch (IOException e) {
             callback.dataError(e.getMessage());

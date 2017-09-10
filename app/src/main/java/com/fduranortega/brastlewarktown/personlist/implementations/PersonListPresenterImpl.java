@@ -24,7 +24,7 @@ public class PersonListPresenterImpl implements PersonListPresenter, PersonListC
     }
 
     @Override
-    public void displayData() {
+    public void getData() {
         interactor.getData(this);
     }
 
@@ -36,11 +36,6 @@ public class PersonListPresenterImpl implements PersonListPresenter, PersonListC
     @Override
     public void hideLoading() {
         view.hideLoading();
-    }
-
-    @Override
-    public void showError(String message) {
-
     }
 
     @Override

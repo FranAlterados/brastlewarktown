@@ -5,11 +5,5 @@ package com.fduranortega.brastlewarktown.personlist.interfaces;
  */
 public interface PersonListPresenter {
 
-    public void displayData();
-
-    public void showLoading();
-
-    public void hideLoading();
-
-    public void showError(String message);
+    public void getData();
 }
