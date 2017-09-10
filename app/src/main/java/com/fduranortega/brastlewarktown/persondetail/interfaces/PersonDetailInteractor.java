@@ -5,5 +5,5 @@ package com.fduranortega.brastlewarktown.persondetail.interfaces;
  */
 public interface PersonDetailInteractor {
 
-    public void getData(String id);
+    public void getData(String id, PersonDetailCallback callback);
 }

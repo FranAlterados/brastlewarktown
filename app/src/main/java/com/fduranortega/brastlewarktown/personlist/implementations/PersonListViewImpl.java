@@ -79,7 +79,7 @@ public class PersonListViewImpl extends AppCompatActivity implements PersonListV
     @Override
     public void clickPerson(Person person) {
         Intent intent = new Intent(this, PersonDetailViewImpl.class);
-        intent.putExtra("id", person.getId());
+        intent.putExtra(Person.ID_KEY, person.getId());
         startActivity(intent);
     }
 

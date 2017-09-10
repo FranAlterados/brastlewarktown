@@ -6,6 +6,8 @@ import java.util.List;
  * Created by FranAlterados on 6/9/17.
  */
 public class Person {
+    public static String ID_KEY = "id";
+
     String id;
     String name;
     String photo;

@@ -42,6 +42,6 @@ public class PersonDetailPresenterImpl implements PersonDetailPresenter, PersonD
 
     @Override
     public void getData(String id) {
-        interactor.getData(id);
+        interactor.getData(id, this);
     }
 }

@@ -11,10 +11,20 @@ import java.util.List;
  */
 public class PersonDBMapper {
 
-    public static Person convert(PersonDB dtoPerson) {
+    public static Person convert(PersonDB personDB) {
         Person person = new Person();
 
-        //TODO match fields
+        person.setId(personDB.getId());
+        person.setName(personDB.getName());
+        person.setPhoto(personDB.getPhoto());
+        person.setAge(personDB.getAge());
+        person.setWeight(personDB.getWeight());
+        person.setHeight(personDB.getHeight());
+        person.setHairColor(personDB.getHairColor().getColor());
+        //TODO
+//        person.setProfessions(personDB.get());
+        //TODO
+//        person.setFriends(personDB.get());
 
         return person;
     }

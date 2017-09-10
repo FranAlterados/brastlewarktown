@@ -11,6 +11,7 @@ import com.fduranortega.brastlewarktown.persondetail.interfaces.PersonDetailView
 
 public class PersonDetailViewImpl extends AppCompatActivity implements PersonDetailView {
 
+    String id;
     PersonDetailPresenter presenter;
 
     @Override
@@ -19,6 +20,9 @@ public class PersonDetailViewImpl extends AppCompatActivity implements PersonDet
         setContentView(R.layout.person_detail);
 
         presenter = new PersonDetailPresenterImpl(this);
+
+        id = getIntent().getExtras().getString(Person.ID_KEY);
+        presenter.getData(id);
     }
 
     @Override
