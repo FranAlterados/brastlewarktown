@@ -3,6 +3,7 @@ package com.fduranortega.brastlewarktown.realm.mappers;
 import com.fduranortega.brastlewarktown.app.App;
 import com.fduranortega.brastlewarktown.model.Person;
 import com.fduranortega.brastlewarktown.realm.PersonDB;
+import com.fduranortega.brastlewarktown.realm.ProfessionDB;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,8 +24,13 @@ public class PersonDBMapper {
         person.setWeight(personDB.getWeight());
         person.setHeight(personDB.getHeight());
         person.setHairColor(personDB.getHairColor().getColor());
-        //TODO
-//        person.setProfessions(personDB.get());
+
+        List<String> professions = new ArrayList<>();
+        for (ProfessionDB professionDB : personDB.getProfessions()) {
+            professions.add(professionDB.getProfession());
+        }
+        person.setProfessions(professions);
+
         if (getFriends) {
             List<Person> friends = new ArrayList<>();
             List<String> lstNames = Arrays.asList(personDB.getFriendNames().split(","));

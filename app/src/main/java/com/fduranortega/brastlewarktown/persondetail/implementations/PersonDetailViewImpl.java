@@ -23,6 +23,21 @@ public class PersonDetailViewImpl extends AppCompatActivity implements PersonDet
     @Bind(R.id.tvName)
     TextView tvName;
 
+    @Bind(R.id.tvAge)
+    TextView tvAge;
+
+    @Bind(R.id.tvWeight)
+    TextView tvWeight;
+
+    @Bind(R.id.tvHeight)
+    TextView tvHeight;
+
+    @Bind(R.id.tvHairColor)
+    TextView tvHairColor;
+
+    @Bind(R.id.tvProfessions)
+    TextView tvProfessions;
+
     String id;
     Person person;
     PersonDetailPresenter presenter;
@@ -46,6 +61,20 @@ public class PersonDetailViewImpl extends AppCompatActivity implements PersonDet
 
         Picasso.with(this).load(person.getPhoto()).into(ivPhoto);
         tvName.setText(person.getName());
+        tvAge.setText(person.getAge());
+        tvWeight.setText(person.getWeight());
+        tvHeight.setText(person.getHeight());
+        tvHairColor.setText(person.getHairColor());
+        String professions = "";
+        if (person.getProfessions() != null) {
+            for (String profession : person.getProfessions()) {
+                if (professions != "") {
+                    professions += "\n";
+                }
+                professions += profession;
+            }
+        }
+        tvProfessions.setText(professions);
     }
 
     @Override
