@@ -60,11 +60,11 @@ public class PersonListViewImpl extends AppCompatActivity implements PersonListV
         }
         if (filter != null) {
             displayFilterActionBar();
-            //TODO call getData filtered
+            presenter.getData(filter);
         } else {
             showFilterButton();
 
-            presenter.getData();
+            presenter.getData(null);
         }
     }
 

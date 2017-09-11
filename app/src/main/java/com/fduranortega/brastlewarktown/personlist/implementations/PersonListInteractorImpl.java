@@ -5,12 +5,14 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fduranortega.brastlewarktown.R;
 import com.fduranortega.brastlewarktown.app.App;
+import com.fduranortega.brastlewarktown.model.Filter;
 import com.fduranortega.brastlewarktown.model.Person;
 import com.fduranortega.brastlewarktown.personlist.interfaces.PersonListCallback;
 import com.fduranortega.brastlewarktown.personlist.interfaces.PersonListInteractor;
 import com.fduranortega.brastlewarktown.realm.ColorDB;
 import com.fduranortega.brastlewarktown.realm.PersonDB;
 import com.fduranortega.brastlewarktown.realm.ProfessionDB;
+import com.fduranortega.brastlewarktown.realm.mappers.PersonDBMapper;
 import com.fduranortega.brastlewarktown.rest.dto.DTOTown;
 import com.fduranortega.brastlewarktown.rest.dto.mappers.DTOPersonMapper;
 
@@ -21,11 +23,13 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import io.realm.Realm;
 import io.realm.RealmList;
+import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -43,17 +47,54 @@ public class PersonListInteractorImpl implements PersonListInteractor {
 
 
     @Override
-    public void getData(final PersonListCallback listener) {
+    public void getData(Filter filter, final PersonListCallback callback) {
+        if (filter != null) {
+            getFromBD(filter, callback);
+        } else {
+            getFromService(callback);
+        }
         //Si tenemos internet
-        getFromService(listener);
+
         //Si no tenemos internet pero tenemos datos en la bd
-        //getFileFromBD(listener);
+        //getFromBD(null,listener);
         //Si no tenemos internet ni tenemos datos en la bd
 //        getFromFile(listener);
     }
 
-    private void getFileFromBD(PersonListCallback listener) {
-        //TODO
+    private void getFromBD(final Filter filter, final PersonListCallback callback) {
+
+
+        App.getRealm().executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm bgRealm) {
+                RealmQuery<PersonDB> query = bgRealm.where(PersonDB.class);
+
+                if (filter.getName() != null) {
+                    query.like("name", filter.getName());
+                }
+
+//                if(filter.getHairColor() != null) {
+//                    query.like("name",filter.getName());
+//                }
+
+
+                RealmResults<PersonDB> filter = query.findAll();
+                List<Person> lstPerson = new ArrayList<Person>();
+                for (PersonDB personDB : filter) {
+                    Person person = PersonDBMapper.convert(personDB, false);
+                    lstPerson.add(person);
+                }
+                callback.dataResponse(lstPerson);
+
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+
+            }
+        });
+
+
     }
 
 

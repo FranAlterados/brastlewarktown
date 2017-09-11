@@ -1,5 +1,6 @@
 package com.fduranortega.brastlewarktown.personlist.implementations;
 
+import com.fduranortega.brastlewarktown.model.Filter;
 import com.fduranortega.brastlewarktown.model.Person;
 import com.fduranortega.brastlewarktown.personlist.interfaces.PersonListCallback;
 import com.fduranortega.brastlewarktown.personlist.interfaces.PersonListInteractor;
@@ -24,8 +25,8 @@ public class PersonListPresenterImpl implements PersonListPresenter, PersonListC
     }
 
     @Override
-    public void getData() {
-        interactor.getData(this);
+    public void getData(Filter filter) {
+        interactor.getData(filter, this);
     }
 
     @Override
