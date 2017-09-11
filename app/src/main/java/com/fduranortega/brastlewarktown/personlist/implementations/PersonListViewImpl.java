@@ -2,6 +2,7 @@ package com.fduranortega.brastlewarktown.personlist.implementations;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,6 +32,9 @@ public class PersonListViewImpl extends AppCompatActivity implements PersonListV
 
     @Bind(R.id.rvPersons)
     RecyclerView rvPersons;
+
+    @Bind(R.id.srlPersonList)
+    SwipeRefreshLayout srlPersonList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,12 +94,14 @@ public class PersonListViewImpl extends AppCompatActivity implements PersonListV
 
     @Override
     public void showLoading() {
-        //TODO
+        srlPersonList.setEnabled(true);
+        srlPersonList.setRefreshing(true);
     }
 
     @Override
     public void hideLoading() {
-        //TODO
+        srlPersonList.setEnabled(false);
+        srlPersonList.setRefreshing(false);
     }
 
     @Override

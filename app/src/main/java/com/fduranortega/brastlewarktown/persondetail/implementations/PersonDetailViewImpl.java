@@ -2,6 +2,7 @@ package com.fduranortega.brastlewarktown.persondetail.implementations;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,6 +45,9 @@ public class PersonDetailViewImpl extends AppCompatActivity implements PersonDet
 
     @Bind(R.id.llFriends)
     LinearLayout llFriends;
+
+    @Bind(R.id.srlPersonDetail)
+    SwipeRefreshLayout srlPersonDetail;
 
     String id;
     Person person;
@@ -110,12 +114,14 @@ public class PersonDetailViewImpl extends AppCompatActivity implements PersonDet
 
     @Override
     public void showLoading() {
-        //TODO
+        srlPersonDetail.setEnabled(true);
+        srlPersonDetail.setRefreshing(true);
     }
 
     @Override
     public void hideLoading() {
-        //TODO
+        srlPersonDetail.setEnabled(false);
+        srlPersonDetail.setRefreshing(false);
     }
 
     @Override
