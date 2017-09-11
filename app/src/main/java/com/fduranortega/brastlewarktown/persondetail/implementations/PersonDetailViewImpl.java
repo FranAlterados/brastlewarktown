@@ -2,7 +2,9 @@ package com.fduranortega.brastlewarktown.persondetail.implementations;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +40,9 @@ public class PersonDetailViewImpl extends AppCompatActivity implements PersonDet
     @Bind(R.id.tvProfessions)
     TextView tvProfessions;
 
+    @Bind(R.id.llFriends)
+    LinearLayout llFriends;
+
     String id;
     Person person;
     PersonDetailPresenter presenter;
@@ -56,7 +61,7 @@ public class PersonDetailViewImpl extends AppCompatActivity implements PersonDet
     }
 
     @Override
-    public void displayData(Person person) {
+    public void displayData(final Person person) {
         this.person = person;
 
         Picasso.with(this).load(person.getPhoto()).into(ivPhoto);
@@ -75,6 +80,27 @@ public class PersonDetailViewImpl extends AppCompatActivity implements PersonDet
             }
         }
         tvProfessions.setText(professions);
+
+        for (final Person friend : person.getFriends()) {
+            ImageView ivFriend = new ImageView(this);
+            ivFriend.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(150, 150);
+            int margin = 30;
+            layoutParams.bottomMargin = margin;
+            layoutParams.leftMargin = margin;
+            layoutParams.rightMargin = margin;
+            layoutParams.topMargin = margin;
+            ivFriend.setLayoutParams(layoutParams);
+
+            Picasso.with(this).load(friend.getPhoto()).into(ivFriend);
+            ivFriend.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    clickFriend(friend);
+                }
+            });
+            llFriends.addView(ivFriend);
+        }
     }
 
     @Override
@@ -95,5 +121,6 @@ public class PersonDetailViewImpl extends AppCompatActivity implements PersonDet
     @Override
     public void clickFriend(Person person) {
         //TODO
+        Toast.makeText(PersonDetailViewImpl.this, person.getName(), Toast.LENGTH_SHORT).show();
     }
 }

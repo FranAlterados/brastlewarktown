@@ -145,13 +145,22 @@
                     android:textSize="19sp"
                     android:textStyle="bold" />
 
-                <TextView
+                <HorizontalScrollView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="50px"
-                    android:layout_marginTop="5px"
-                    android:text="123 years"
-                    android:textSize="15sp" />
+                    android:layout_marginBottom="10dp">
+
+                    <LinearLayout
+                        android:id="@+id/llFriends"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+
+                    </LinearLayout>
+
+
+                </HorizontalScrollView>
 
 
             </LinearLayout>
