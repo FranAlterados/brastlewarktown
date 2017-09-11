@@ -116,6 +116,7 @@ public class PersonDetailViewImpl extends AppCompatActivity implements PersonDet
     @Override
     public void showError(String message) {
         Toast.makeText(PersonDetailViewImpl.this, message, Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     @Override

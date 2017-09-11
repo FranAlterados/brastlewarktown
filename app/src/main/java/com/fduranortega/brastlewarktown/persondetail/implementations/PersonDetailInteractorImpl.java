@@ -14,10 +14,18 @@ public class PersonDetailInteractorImpl implements PersonDetailInteractor {
 
     @Override
     public void getData(String id, PersonDetailCallback callback) {
-        callback.showLoading();
-        PersonDB personDB = App.getRealm().where(PersonDB.class).equalTo("id", id).findFirst();
-        Person person = PersonDBMapper.convert(personDB, true);
-        callback.dataResponse(person);
-        callback.hideLoading();
+        if (!App.getRealm().isInTransaction()) {
+            callback.showLoading();
+            PersonDB personDB = App.getRealm().where(PersonDB.class).equalTo("id", id).findFirst();
+            if (personDB != null) {
+                Person person = PersonDBMapper.convert(personDB, true);
+                callback.dataResponse(person);
+                callback.hideLoading();
+            } else {
+                callback.dataError("Data is not ready yet");
+            }
+        } else {
+            callback.dataError("Data is not ready yet");
+        }
     }
 }
