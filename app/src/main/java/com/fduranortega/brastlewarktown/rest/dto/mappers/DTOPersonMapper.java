@@ -22,7 +22,7 @@ public class DTOPersonMapper {
         person.setHeight(dtoPerson.getHeight());
         person.setHairColor(dtoPerson.getHairColor());
         person.setProfessions(dtoPerson.getProfessions());
-        person.setFriends(dtoPerson.getFriends());
+        person.setFriendsNames(dtoPerson.getFriends());
 
         return person;
     }

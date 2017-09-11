@@ -131,14 +131,14 @@ public class PersonListInteractorImpl implements PersonListInteractor {
                     personDB.setWeight(person.getWeight());
                     personDB.setHeight(person.getHeight());
                     //Fix because Realm doesnt support List<String>
-//                    String friendNames = "";
-//                    for (String friendName : person.getFriends()) {
-//                        if (friendNames != "") {
-//                            friendNames += ",";
-//                        }
-//                        friendNames += friendName;
-//                    }
-//                    personDB.setFriendNames(friendNames);
+                    String friendNames = "";
+                    for (String friendName : person.getFriendsNames()) {
+                        if (friendNames != "") {
+                            friendNames += ",";
+                        }
+                        friendNames += friendName;
+                    }
+                    personDB.setFriendNames(friendNames);
 
                     personDB.setHairColor(personColor);
                     personDB.setProfessions(lstProfessions);
@@ -154,7 +154,7 @@ public class PersonListInteractorImpl implements PersonListInteractor {
 //                    for (String friendName : lstNames) {
 //                        PersonDB friend = bgRealm.where(PersonDB.class).equalTo("name", friendName).findFirst();
 //                        if (friend != null) {
-//                            personDB.getFriends().add(friend);
+//                            personDB.getFriendsNames().add(friend);
 //                        }
 //                    }
 //                }

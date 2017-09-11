@@ -16,7 +16,8 @@ public class Person {
     String height;
     String hairColor;
     List<String> professions;
-    List<String> friends;
+    List<String> friendsNames;
+    List<Person> friends;
 
     public String getId() {
         return id;
@@ -82,11 +83,19 @@ public class Person {
         this.professions = professions;
     }
 
-    public List<String> getFriends() {
+    public List<String> getFriendsNames() {
+        return friendsNames;
+    }
+
+    public void setFriendsNames(List<String> friendsNames) {
+        this.friendsNames = friendsNames;
+    }
+
+    public List<Person> getFriends() {
         return friends;
     }
 
-    public void setFriends(List<String> friends) {
+    public void setFriends(List<Person> friends) {
         this.friends = friends;
     }
 }

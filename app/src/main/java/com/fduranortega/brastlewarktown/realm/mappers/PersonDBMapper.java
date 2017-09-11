@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class PersonDBMapper {
 
-    public static Person convert(PersonDB personDB) {
+    public static Person convert(PersonDB personDB, Boolean getFriends) {
         Person person = new Person();
 
         person.setId(personDB.getId());
@@ -25,18 +25,18 @@ public class PersonDBMapper {
         person.setHairColor(personDB.getHairColor().getColor());
         //TODO
 //        person.setProfessions(personDB.get());
-        //TODO
-//        person.setFriends(personDB.get());
-        List<String> lstNames = Arrays.asList(personDB.getFriendNames().split(","));
-        for (String friendName : lstNames) {
-            PersonDB friend = App.getRealm().where(PersonDB.class).equalTo("name", friendName).findFirst();
-            if (friend != null) {
-                App.getRealm().beginTransaction();
-                personDB.getFriends().add(friend);
-                App.getRealm().commitTransaction();
+        if (getFriends) {
+            List<Person> friends = new ArrayList<>();
+            List<String> lstNames = Arrays.asList(personDB.getFriendNames().split(","));
+            for (String friendName : lstNames) {
+                PersonDB friend = App.getRealm().where(PersonDB.class).equalTo("name", friendName).findFirst();
+                if (friend != null) {
+                    //set false to stop recursion
+                    friends.add(convert(friend, false));
+                }
             }
+            person.setFriends(friends);
         }
-        //TODO crear list<Person> en el modelo y rellenarlo.
 
         return person;
     }
@@ -46,7 +46,7 @@ public class PersonDBMapper {
 
         if (lstPersonDB != null) {
             for (PersonDB personDB : lstPersonDB) {
-                lstPerson.add(convert(personDB));
+                lstPerson.add(convert(personDB, false));
             }
         }
 
