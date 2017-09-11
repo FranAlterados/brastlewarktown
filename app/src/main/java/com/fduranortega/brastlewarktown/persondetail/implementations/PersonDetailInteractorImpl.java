@@ -1,5 +1,6 @@
 package com.fduranortega.brastlewarktown.persondetail.implementations;
 
+import com.fduranortega.brastlewarktown.R;
 import com.fduranortega.brastlewarktown.app.App;
 import com.fduranortega.brastlewarktown.model.Person;
 import com.fduranortega.brastlewarktown.persondetail.interfaces.PersonDetailCallback;
@@ -22,10 +23,10 @@ public class PersonDetailInteractorImpl implements PersonDetailInteractor {
                 callback.dataResponse(person);
                 callback.hideLoading();
             } else {
-                callback.dataError("Data is not ready yet");
+                callback.dataError(App.INSTANCE.getApplicationContext().getString(R.string.data_not_ready));
             }
         } else {
-            callback.dataError("Data is not ready yet");
+            callback.dataError(App.INSTANCE.getApplicationContext().getString(R.string.data_not_ready));
         }
     }
 }

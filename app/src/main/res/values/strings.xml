@@ -3,4 +3,5 @@
     <string name="urlApi">https://raw.githubusercontent.com/rrafols/mobile_test/master</string>
     <string name="title_activity_person_detail_view_impl">PersonDetailViewImpl</string>
     <string name="service_error">Service Error</string>
+    <string name="data_not_ready">Data is not ready yet</string>
 </resources>

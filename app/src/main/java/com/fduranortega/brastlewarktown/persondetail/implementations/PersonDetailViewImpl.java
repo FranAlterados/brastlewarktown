@@ -1,7 +1,9 @@
 package com.fduranortega.brastlewarktown.persondetail.implementations;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -64,6 +66,9 @@ public class PersonDetailViewImpl extends AppCompatActivity implements PersonDet
     public void displayData(final Person person) {
         this.person = person;
 
+        getSupportActionBar().setTitle(person.getName());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         Picasso.with(this).load(person.getPhoto()).into(ivPhoto);
         tvName.setText(person.getName());
         tvAge.setText(person.getAge());
@@ -121,7 +126,19 @@ public class PersonDetailViewImpl extends AppCompatActivity implements PersonDet
 
     @Override
     public void clickFriend(Person person) {
-        //TODO
-        Toast.makeText(PersonDetailViewImpl.this, person.getName(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, PersonDetailViewImpl.class);
+        intent.putExtra(Person.ID_KEY, person.getId());
+        startActivity(intent);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
