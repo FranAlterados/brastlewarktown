@@ -6,6 +6,8 @@ import java.io.Serializable;
  * Created by FranAlterados on 11/9/17.
  */
 public class Filter implements Serializable {
+    public static String FILTER_KEY = "filterKey";
+
     String name;
     Integer minAge;
     Integer maxAge;

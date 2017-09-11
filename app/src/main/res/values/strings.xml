@@ -5,4 +5,5 @@
     <string name="service_error">Service Error</string>
     <string name="data_not_ready">Data is not ready yet</string>
     <string name="filter">Filter</string>
+    <string name="filtered_list">Filtered List</string>
 </resources>
