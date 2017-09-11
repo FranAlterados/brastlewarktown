@@ -73,11 +73,14 @@ public class PersonDetailViewImpl extends AppCompatActivity implements PersonDet
         getSupportActionBar().setTitle(person.getName());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        String weight = String.format("%.2f", Double.parseDouble(person.getWeight())) + " kg";
+        String height = String.format("%.2f", Double.parseDouble(person.getHeight())) + " cm";
+
         Picasso.with(this).load(person.getPhoto()).into(ivPhoto);
         tvName.setText(person.getName());
-        tvAge.setText(person.getAge());
-        tvWeight.setText(person.getWeight());
-        tvHeight.setText(person.getHeight());
+        tvAge.setText(person.getAge() + " years");
+        tvWeight.setText(weight);
+        tvHeight.setText(height);
         tvHairColor.setText(person.getHairColor());
         String professions = "";
         if (person.getProfessions() != null) {
