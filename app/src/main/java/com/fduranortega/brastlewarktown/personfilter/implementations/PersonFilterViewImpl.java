@@ -25,39 +25,38 @@ public class PersonFilterViewImpl extends AppCompatActivity implements PersonFil
 
     @Bind(R.id.etName)
     EditText etName;
-    //etName
 
     @Bind(R.id.etMinAge)
     EditText etMinAge;
-    //etMinAge
+
 
     @Bind(R.id.etMaxAge)
     EditText etMaxAge;
-    //etMaxAge
+
 
     @Bind(R.id.etMinWeight)
     EditText etMinWeight;
-    //etMinWeight
+
 
     @Bind(R.id.etMaxWeight)
     EditText etMaxWeight;
-    //etMaxWeight
+
 
     @Bind(R.id.etMinHeight)
     EditText etMinHeight;
-    //etMinHeight
+
 
     @Bind(R.id.etMaxHeight)
     EditText etMaxHeight;
-    //etMaxHeight
+
 
     @Bind(R.id.spColor)
     Spinner spColor;
-    //spColor
+
 
     @Bind(R.id.spProfession)
     Spinner spProfession;
-    //spProfession
+
 
     @Bind(R.id.btFilter)
     Button btFilter;
@@ -106,7 +105,61 @@ public class PersonFilterViewImpl extends AppCompatActivity implements PersonFil
     @OnClick(R.id.btFilter)
     public void clickFilterButton() {
         Filter filter = new Filter();
-        //TODO make filter
+
+        String name = null;
+        if (!etName.getText().toString().equals("")) {
+            name = etName.getText().toString();
+        }
+
+        Integer minAge = null;
+        if (!etMinAge.getText().toString().equals("")) {
+            minAge = Integer.parseInt(etMinAge.getText().toString());
+        }
+
+        Integer maxAge = null;
+        if (!etMaxAge.getText().toString().equals("")) {
+            maxAge = Integer.parseInt(etMaxAge.getText().toString());
+        }
+
+        Integer minWeight = null;
+        if (!etMinWeight.getText().toString().equals("")) {
+            minWeight = Integer.parseInt(etMinWeight.getText().toString());
+        }
+
+        Integer maxWeight = null;
+        if (!etMaxWeight.getText().toString().equals("")) {
+            maxWeight = Integer.parseInt(etMaxWeight.getText().toString());
+        }
+
+        Integer minHeight = null;
+        if (!etMinHeight.getText().toString().equals("")) {
+            minHeight = Integer.parseInt(etMinHeight.getText().toString());
+        }
+
+        Integer maxHeight = null;
+        if (!etMaxHeight.getText().toString().equals("")) {
+            maxHeight = Integer.parseInt(etMaxHeight.getText().toString());
+        }
+
+        String hairColor = null;
+        if (spColor.getSelectedItemPosition() > -1) {
+            hairColor = colorList.get(spColor.getSelectedItemPosition());
+        }
+
+        String profession = null;
+        if (spProfession.getSelectedItemPosition() > -1) {
+            profession = professionList.get(spProfession.getSelectedItemPosition());
+        }
+
+        filter.setName(name);
+        filter.setMinAge(minAge);
+        filter.setMaxAge(maxAge);
+        filter.setMinWeight(minWeight);
+        filter.setMaxWeight(maxWeight);
+        filter.setMinHeight(minHeight);
+        filter.setMaxHeight(maxHeight);
+        filter.setHairColor(hairColor);
+        filter.setProfession(profession);
 
         clickFilter(filter);
     }

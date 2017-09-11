@@ -3,17 +3,21 @@ package com.fduranortega.brastlewarktown.personlist.implementations;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.fduranortega.brastlewarktown.R;
 import com.fduranortega.brastlewarktown.model.Filter;
 import com.fduranortega.brastlewarktown.model.Person;
 import com.fduranortega.brastlewarktown.persondetail.implementations.PersonDetailViewImpl;
+import com.fduranortega.brastlewarktown.personfilter.implementations.PersonFilterViewImpl;
 import com.fduranortega.brastlewarktown.personlist.interfaces.PersonListPresenter;
 import com.fduranortega.brastlewarktown.personlist.interfaces.PersonListView;
 import com.fduranortega.brastlewarktown.personlist.ui.RVPersonAdapter;
@@ -55,13 +59,42 @@ public class PersonListViewImpl extends AppCompatActivity implements PersonListV
             filter = (Filter) getIntent().getSerializableExtra(Filter.FILTER_KEY);
         }
         if (filter != null) {
-            getSupportActionBar().setTitle(R.string.filtered_list);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+            displayFilterActionBar();
             //TODO call getData filtered
         } else {
+            showFilterButton();
+
             presenter.getData();
         }
+    }
+
+    public void showFilterButton() {
+        ActionBar actionBar = getSupportActionBar();
+
+        actionBar.setDisplayOptions(actionBar.getDisplayOptions()
+                | ActionBar.DISPLAY_SHOW_CUSTOM);
+        ImageView imageView = new ImageView(actionBar.getThemedContext());
+        imageView.setScaleType(ImageView.ScaleType.CENTER);
+        imageView.setImageResource(android.R.drawable.ic_menu_search);
+        ActionBar.LayoutParams layoutParams = new ActionBar.LayoutParams(
+                ActionBar.LayoutParams.WRAP_CONTENT,
+                ActionBar.LayoutParams.WRAP_CONTENT, Gravity.RIGHT
+                | Gravity.CENTER_VERTICAL);
+        layoutParams.rightMargin = 40;
+        imageView.setLayoutParams(layoutParams);
+        actionBar.setCustomView(imageView);
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickFilter();
+            }
+        });
+    }
+
+    public void displayFilterActionBar() {
+        getSupportActionBar().setTitle(R.string.filtered_list);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -101,7 +134,8 @@ public class PersonListViewImpl extends AppCompatActivity implements PersonListV
 
     @Override
     public void clickFilter() {
-
+        Intent intent = new Intent(this, PersonFilterViewImpl.class);
+        startActivity(intent);
     }
 
     @Override
