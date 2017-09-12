@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import io.realm.Case;
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmQuery;
@@ -64,33 +65,60 @@ public class PersonListInteractorImpl implements PersonListInteractor {
     private void getFromBD(final Filter filter, final PersonListCallback callback) {
 
 
+        final List<Person> lstPerson = new ArrayList<>();
+
         App.getRealm().executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgRealm) {
                 RealmQuery<PersonDB> query = bgRealm.where(PersonDB.class);
 
                 if (filter.getName() != null) {
-                    query.like("name", filter.getName());
+                    query.like("name", "*" + filter.getName() + "*", Case.INSENSITIVE);
                 }
 
-//                if(filter.getHairColor() != null) {
-//                    query.like("name",filter.getName());
-//                }
+                if (filter.getMinAge() != null) {
+                    query.greaterThanOrEqualTo("age", filter.getMinAge());
+                }
+
+                if (filter.getMinWeight() != null) {
+                    query.greaterThanOrEqualTo("weight", filter.getMinWeight());
+                }
+
+                if (filter.getMinHeight() != null) {
+                    query.greaterThanOrEqualTo("height", filter.getMinHeight());
+                }
+
+                if (filter.getMaxAge() != null) {
+                    query.lessThanOrEqualTo("age", filter.getMaxAge());
+                }
+
+                if (filter.getMaxWeight() != null) {
+                    query.lessThanOrEqualTo("weight", filter.getMaxWeight());
+                }
+
+                if (filter.getMaxHeight() != null) {
+                    query.lessThanOrEqualTo("height", filter.getMaxHeight());
+                }
+
+                if (filter.getHairColor() != null) {
+                    query.like("hairColor.color", filter.getHairColor());
+                }
+
+                if (filter.getProfession() != null) {
+                    query.like("professions.profession", filter.getProfession());
+                }
 
 
                 RealmResults<PersonDB> filter = query.findAll();
-                List<Person> lstPerson = new ArrayList<Person>();
                 for (PersonDB personDB : filter) {
                     Person person = PersonDBMapper.convert(personDB, false);
                     lstPerson.add(person);
                 }
-                callback.dataResponse(lstPerson);
-
             }
         }, new Realm.Transaction.OnSuccess() {
             @Override
             public void onSuccess() {
-
+                callback.dataResponse(lstPerson);
             }
         });
 
@@ -168,9 +196,22 @@ public class PersonListInteractorImpl implements PersonListInteractor {
                     personDB.setId(person.getId());
                     personDB.setName(person.getName());
                     personDB.setPhoto(person.getPhoto());
-                    personDB.setAge(person.getAge());
-                    personDB.setWeight(person.getWeight());
-                    personDB.setHeight(person.getHeight());
+                    Integer age = null;
+                    if (person.getAge() != null) {
+                        age = Integer.parseInt(person.getAge());
+                    }
+                    Double weight = null;
+                    if (person.getWeight() != null) {
+                        weight = Double.parseDouble(person.getWeight());
+                    }
+                    Double height = null;
+                    if (person.getAge() != null) {
+                        height = Double.parseDouble(person.getHeight());
+                    }
+
+                    personDB.setAge(age);
+                    personDB.setWeight(weight);
+                    personDB.setHeight(height);
                     //Fix because Realm doesnt support List<String>
                     String friendNames = "";
                     for (String friendName : person.getFriendsNames()) {

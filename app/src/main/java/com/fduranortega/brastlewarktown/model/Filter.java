@@ -11,10 +11,10 @@ public class Filter implements Serializable {
     String name;
     Integer minAge;
     Integer maxAge;
-    Integer minWeight;
-    Integer maxWeight;
-    Integer minHeight;
-    Integer maxHeight;
+    Double minWeight;
+    Double maxWeight;
+    Double minHeight;
+    Double maxHeight;
     String hairColor;
     String profession;
 
@@ -42,35 +42,35 @@ public class Filter implements Serializable {
         this.maxAge = maxAge;
     }
 
-    public Integer getMinWeight() {
+    public Double getMinWeight() {
         return minWeight;
     }
 
-    public void setMinWeight(Integer minWeight) {
+    public void setMinWeight(Double minWeight) {
         this.minWeight = minWeight;
     }
 
-    public Integer getMaxWeight() {
+    public Double getMaxWeight() {
         return maxWeight;
     }
 
-    public void setMaxWeight(Integer maxWeight) {
+    public void setMaxWeight(Double maxWeight) {
         this.maxWeight = maxWeight;
     }
 
-    public Integer getMinHeight() {
+    public Double getMinHeight() {
         return minHeight;
     }
 
-    public void setMinHeight(Integer minHeight) {
+    public void setMinHeight(Double minHeight) {
         this.minHeight = minHeight;
     }
 
-    public Integer getMaxHeight() {
+    public Double getMaxHeight() {
         return maxHeight;
     }
 
-    public void setMaxHeight(Integer maxHeight) {
+    public void setMaxHeight(Double maxHeight) {
         this.maxHeight = maxHeight;
     }
 

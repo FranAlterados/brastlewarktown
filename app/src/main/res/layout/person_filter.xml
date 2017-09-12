@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_weight=".5"
             android:hint="Min Weight"
-            android:inputType="number" />
+            android:inputType="numberDecimal" />
 
         <EditText
             android:id="@+id/etMaxWeight"
@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_weight=".5"
             android:hint="Max Weight"
-            android:inputType="number" />
+            android:inputType="numberDecimal" />
     </LinearLayout>
 
     <LinearLayout
@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_weight=".5"
             android:hint="Min Height"
-            android:inputType="number" />
+            android:inputType="numberDecimal" />
 
         <EditText
             android:id="@+id/etMaxHeight"
@@ -79,7 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_weight=".5"
             android:hint="Max Height"
-            android:inputType="number" />
+            android:inputType="numberDecimal" />
     </LinearLayout>
 
     <Spinner

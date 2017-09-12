@@ -12,9 +12,9 @@ public class PersonDB extends RealmObject {
     String id;
     String name;
     String photo;
-    String age;
-    String weight;
-    String height;
+    Integer age;
+    Double weight;
+    Double height;
     String friendNames;
     ColorDB hairColor;
     RealmList<ProfessionDB> professions;
@@ -44,27 +44,27 @@ public class PersonDB extends RealmObject {
         this.photo = photo;
     }
 
-    public String getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(String age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
-    public String getWeight() {
+    public Double getWeight() {
         return weight;
     }
 
-    public void setWeight(String weight) {
+    public void setWeight(Double weight) {
         this.weight = weight;
     }
 
-    public String getHeight() {
+    public Double getHeight() {
         return height;
     }
 
-    public void setHeight(String height) {
+    public void setHeight(Double height) {
         this.height = height;
     }
 

@@ -20,9 +20,9 @@ public class PersonDBMapper {
         person.setId(personDB.getId());
         person.setName(personDB.getName());
         person.setPhoto(personDB.getPhoto());
-        person.setAge(personDB.getAge());
-        person.setWeight(personDB.getWeight());
-        person.setHeight(personDB.getHeight());
+        person.setAge(personDB.getAge().toString());
+        person.setWeight(personDB.getWeight().toString());
+        person.setHeight(personDB.getHeight().toString());
         person.setHairColor(personDB.getHairColor().getColor());
 
         List<String> professions = new ArrayList<>();

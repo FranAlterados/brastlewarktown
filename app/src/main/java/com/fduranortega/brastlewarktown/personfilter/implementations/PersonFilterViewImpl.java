@@ -121,24 +121,24 @@ public class PersonFilterViewImpl extends AppCompatActivity implements PersonFil
             maxAge = Integer.parseInt(etMaxAge.getText().toString());
         }
 
-        Integer minWeight = null;
+        Double minWeight = null;
         if (!etMinWeight.getText().toString().equals("")) {
-            minWeight = Integer.parseInt(etMinWeight.getText().toString());
+            minWeight = Double.parseDouble(etMinWeight.getText().toString());
         }
 
-        Integer maxWeight = null;
+        Double maxWeight = null;
         if (!etMaxWeight.getText().toString().equals("")) {
-            maxWeight = Integer.parseInt(etMaxWeight.getText().toString());
+            maxWeight = Double.parseDouble(etMaxWeight.getText().toString());
         }
 
-        Integer minHeight = null;
+        Double minHeight = null;
         if (!etMinHeight.getText().toString().equals("")) {
-            minHeight = Integer.parseInt(etMinHeight.getText().toString());
+            minHeight = Double.parseDouble(etMinHeight.getText().toString());
         }
 
-        Integer maxHeight = null;
+        Double maxHeight = null;
         if (!etMaxHeight.getText().toString().equals("")) {
-            maxHeight = Integer.parseInt(etMaxHeight.getText().toString());
+            maxHeight = Double.parseDouble(etMaxHeight.getText().toString());
         }
 
         String hairColor = null;
