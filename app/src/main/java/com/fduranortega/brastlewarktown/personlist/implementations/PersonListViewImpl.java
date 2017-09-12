@@ -58,16 +58,12 @@ public class PersonListViewImpl extends AppCompatActivity implements PersonListV
         if (getIntent() != null) {
             filter = (Filter) getIntent().getSerializableExtra(Filter.FILTER_KEY);
         }
-        if (filter != null) {
-            displayFilterActionBar();
-            presenter.getData(filter);
-        } else {
-            showFilterButton();
 
-            presenter.getData(null);
-        }
+        presenter.getData(filter);
+
     }
 
+    @Override
     public void showFilterButton() {
         ActionBar actionBar = getSupportActionBar();
 
@@ -92,6 +88,7 @@ public class PersonListViewImpl extends AppCompatActivity implements PersonListV
         });
     }
 
+    @Override
     public void displayFilterActionBar() {
         getSupportActionBar().setTitle(R.string.filtered_list);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

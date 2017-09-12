@@ -40,6 +40,16 @@ public class PersonListPresenterImpl implements PersonListPresenter, PersonListC
     }
 
     @Override
+    public void displayFilterActionBar() {
+        view.displayFilterActionBar();
+    }
+
+    @Override
+    public void showFilterButton() {
+        view.showFilterButton();
+    }
+
+    @Override
     public void dataResponse(List<Person> data) {
         view.displayData(data);
     }

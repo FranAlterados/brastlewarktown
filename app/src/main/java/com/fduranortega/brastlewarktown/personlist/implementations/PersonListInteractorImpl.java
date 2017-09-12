@@ -50,8 +50,10 @@ public class PersonListInteractorImpl implements PersonListInteractor {
     @Override
     public void getData(Filter filter, final PersonListCallback callback) {
         if (filter != null) {
+            callback.displayFilterActionBar();
             getFromBD(filter, callback);
         } else {
+            callback.showFilterButton();
             getFromService(callback);
         }
         //Si tenemos internet

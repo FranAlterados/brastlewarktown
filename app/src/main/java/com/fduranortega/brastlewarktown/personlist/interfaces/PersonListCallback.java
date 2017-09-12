@@ -15,4 +15,8 @@ public interface PersonListCallback {
     public void showLoading();
 
     public void hideLoading();
+
+    public void displayFilterActionBar();
+
+    public void showFilterButton();
 }

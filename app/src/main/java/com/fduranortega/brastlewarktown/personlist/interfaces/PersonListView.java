@@ -20,4 +20,8 @@ public interface PersonListView {
     public void clickPerson(Person person);
 
     public void clickFilter();
+
+    public void displayFilterActionBar();
+
+    public void showFilterButton();
 }
