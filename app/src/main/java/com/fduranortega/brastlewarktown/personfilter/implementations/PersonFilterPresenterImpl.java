@@ -22,12 +22,12 @@ public class PersonFilterPresenterImpl implements PersonFilterPresenter, PersonF
     }
 
     @Override
-    public void getColorList(List<String> colorList) {
+    public void getColorList() {
         interactor.getColorList(this);
     }
 
     @Override
-    public void getProfessionList(List<String> professionList) {
+    public void getProfessionList() {
         interactor.getProfessionList(this);
     }
 

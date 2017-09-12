@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -15,6 +16,7 @@ import com.fduranortega.brastlewarktown.personfilter.interfaces.PersonFilterPres
 import com.fduranortega.brastlewarktown.personfilter.interfaces.PersonFilterView;
 import com.fduranortega.brastlewarktown.personlist.implementations.PersonListViewImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -64,8 +66,11 @@ public class PersonFilterViewImpl extends AppCompatActivity implements PersonFil
 
     PersonFilterPresenter presenter;
 
-    List<String> colorList;
-    List<String> professionList;
+    List<String> colorList = new ArrayList<>();
+    List<String> professionList = new ArrayList<>();
+
+    ArrayAdapter<String> colorAdapter;
+    ArrayAdapter<String> professionAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,16 +83,41 @@ public class PersonFilterViewImpl extends AppCompatActivity implements PersonFil
 
         getSupportActionBar().setTitle(R.string.filter);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        initAdapters();
+
+        presenter.getColorList();
+        presenter.getProfessionList();
     }
+
+
+    private void initAdapters() {
+        colorAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, colorList);
+        colorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spColor.setAdapter(colorAdapter);
+
+        professionAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, professionList);
+        professionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spProfession.setAdapter(professionAdapter);
+    }
+
 
     @Override
     public void setColorList(List<String> colorList) {
-        this.colorList = colorList;
+        this.colorList.clear();
+        this.colorList.add("");
+        this.colorList.addAll(colorList);
+        colorAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void setProfessionList(List<String> professionList) {
-        this.professionList = professionList;
+        this.professionList.clear();
+        this.professionList.add("");
+        this.professionList.addAll(professionList);
+        professionAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -142,12 +172,12 @@ public class PersonFilterViewImpl extends AppCompatActivity implements PersonFil
         }
 
         String hairColor = null;
-        if (spColor.getSelectedItemPosition() > -1) {
+        if (spColor.getSelectedItemPosition() > 0) {
             hairColor = colorList.get(spColor.getSelectedItemPosition());
         }
 
         String profession = null;
-        if (spProfession.getSelectedItemPosition() > -1) {
+        if (spProfession.getSelectedItemPosition() > 0) {
             profession = professionList.get(spProfession.getSelectedItemPosition());
         }
 
