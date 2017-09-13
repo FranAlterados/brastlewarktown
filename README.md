@@ -12,7 +12,7 @@ Tambien he tenido en cuenta que cada via de comunicacion (Retrofit, Realm, etc) 
 
 ### Componentes
 
-Con la estructura por componentes busco que dentro de cada paquete podamos encontrar todo el codigo relacionado con el elemento en cuestión. De esta forma la estructura de proyecto queda mas modularizada. Dentro de cada componente podremos encontrar tanto las interfaces como la implementacion de su vista, presentador e interactor. Ademas de las clases para la vista que necesite como adapters y demases.
+Con la estructura por componentes busco que dentro de cada paquete podamos encontrar todo el codigo relacionado con el elemento en cuestión. De esta forma la estructura de proyecto queda mas modularizada. Dentro de cada componente podremos encontrar tanto las interfaces como la implementacion de su vista, presentador e interactor. Ademas de las clases que necesite la vista como adapters y demases.
 
 Los paquetes que se han implementado han sido los siguientes:
 
@@ -34,7 +34,7 @@ Los paquetes que se han implementado han sido los siguientes:
 
 ### Cosas que se han quedado en el tintero
 
-Por cuestiones de tiempo no he podido implementar todo lo que me gustaria, es por eso que dejo aqui estas anotaciones para mas adelante poder implementar estas mejoras que haran que la aplicación sea mas robusta y mejor
+Por cuestiones de tiempo no he podido implementar todo lo que me gustaria, es por eso que dejo aqui estas anotaciones para mas adelante poder implementar estas mejoras que haran que la aplicación sea mas robusta
 
  * Inyeccion de dependencias con Dagger
 
