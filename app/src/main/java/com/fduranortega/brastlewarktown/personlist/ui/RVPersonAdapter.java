@@ -20,9 +20,9 @@ import java.util.List;
  */
 public class RVPersonAdapter extends RecyclerView.Adapter<RVPersonAdapter.PersonViewHolder> {
 
-    private static RecyclerViewClickListener itemListener;
     List<Person> lstPerson;
     Context context;
+    private RecyclerViewClickListener itemListener;
 
     public RVPersonAdapter(List<Person> lstPerson) {
         this.lstPerson = lstPerson;
@@ -37,7 +37,7 @@ public class RVPersonAdapter extends RecyclerView.Adapter<RVPersonAdapter.Person
     }
 
     @Override
-    public void onBindViewHolder(PersonViewHolder holder, int position) {
+    public void onBindViewHolder(final PersonViewHolder holder, int position) {
         String image = lstPerson.get(position).getPhoto();
         String name = lstPerson.get(position).getName();
         String age = "Age: " + lstPerson.get(position).getAge();
@@ -51,6 +51,16 @@ public class RVPersonAdapter extends RecyclerView.Adapter<RVPersonAdapter.Person
         holder.tvPersonHairColor.setText(hairColor);
         holder.tvPersonWeight.setText(weight);
         holder.tvPersonHeight.setText(height);
+
+        holder.cvPerson.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (itemListener != null) {
+                    itemListener.recyclerViewListClicked(view, holder.getLayoutPosition());
+                }
+                ;
+            }
+        });
 
     }
 
@@ -70,7 +80,7 @@ public class RVPersonAdapter extends RecyclerView.Adapter<RVPersonAdapter.Person
     }
 
     public void setItemListener(RecyclerViewClickListener itemListener) {
-        RVPersonAdapter.itemListener = itemListener;
+        this.itemListener = itemListener;
     }
 
     public static class PersonViewHolder extends RecyclerView.ViewHolder {
@@ -91,14 +101,6 @@ public class RVPersonAdapter extends RecyclerView.Adapter<RVPersonAdapter.Person
             tvPersonHairColor = (TextView) itemView.findViewById(R.id.tvPersonHairColor);
             tvPersonWeight = (TextView) itemView.findViewById(R.id.tvPersonWeight);
             tvPersonHeight = (TextView) itemView.findViewById(R.id.tvPersonHeight);
-
-            cvPerson.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    itemListener.recyclerViewListClicked(view, getLayoutPosition()
-                    );
-                }
-            });
         }
     }
 }
