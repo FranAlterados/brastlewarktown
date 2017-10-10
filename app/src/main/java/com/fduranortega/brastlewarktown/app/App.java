@@ -1,6 +1,9 @@
 package com.fduranortega.brastlewarktown.app;
 
 import android.app.Application;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import com.fduranortega.brastlewarktown.rest.RestClient;
 
@@ -21,6 +24,13 @@ public class App extends Application {
 
     public static Realm getRealm() {
         return REALM;
+    }
+
+    public boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     @Override

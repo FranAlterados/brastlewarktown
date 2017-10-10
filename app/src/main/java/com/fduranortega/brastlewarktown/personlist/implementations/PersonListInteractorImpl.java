@@ -1,5 +1,7 @@
 package com.fduranortega.brastlewarktown.personlist.implementations;
 
+import android.util.Log;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -49,19 +51,27 @@ public class PersonListInteractorImpl implements PersonListInteractor {
 
     @Override
     public void getData(Filter filter, final PersonListCallback callback) {
-        if (filter != null) {
-            callback.displayFilterActionBar();
-            getFromBD(filter, callback);
-        } else {
-            callback.showFilterButton();
-            getFromService(callback);
-        }
         //Si tenemos internet
-
+        if (App.INSTANCE.isNetworkAvailable()) {
+            Log.d("Data source:", "From network");
+            if (filter != null) {
+                callback.displayFilterActionBar();
+                getFromBD(filter, callback);
+            } else {
+                callback.showFilterButton();
+                getFromService(callback);
+            }
+        }
         //Si no tenemos internet pero tenemos datos en la bd
-        //getFromBD(null,listener);
+        else if (!App.getRealm().isEmpty()) {
+            Log.d("Data source:", "From database");
+            getFromBD(null, callback);
+        }
         //Si no tenemos internet ni tenemos datos en la bd
-//        getFromFile(listener);
+        else {
+            Log.d("Data source:", "From file");
+            getFromFile(callback);
+        }
     }
 
     private void getFromBD(final Filter filter, final PersonListCallback callback) {
@@ -74,41 +84,44 @@ public class PersonListInteractorImpl implements PersonListInteractor {
             public void execute(Realm bgRealm) {
                 RealmQuery<PersonDB> query = bgRealm.where(PersonDB.class);
 
-                if (filter.getName() != null) {
-                    query.like("name", "*" + filter.getName() + "*", Case.INSENSITIVE);
+                if (filter != null) {
+                    if (filter.getName() != null) {
+                        query.like("name", "*" + filter.getName() + "*", Case.INSENSITIVE);
+                    }
+
+                    if (filter.getMinAge() != null) {
+                        query.greaterThanOrEqualTo("age", filter.getMinAge());
+                    }
+
+                    if (filter.getMinWeight() != null) {
+                        query.greaterThanOrEqualTo("weight", filter.getMinWeight());
+                    }
+
+                    if (filter.getMinHeight() != null) {
+                        query.greaterThanOrEqualTo("height", filter.getMinHeight());
+                    }
+
+                    if (filter.getMaxAge() != null) {
+                        query.lessThanOrEqualTo("age", filter.getMaxAge());
+                    }
+
+                    if (filter.getMaxWeight() != null) {
+                        query.lessThanOrEqualTo("weight", filter.getMaxWeight());
+                    }
+
+                    if (filter.getMaxHeight() != null) {
+                        query.lessThanOrEqualTo("height", filter.getMaxHeight());
+                    }
+
+                    if (filter.getHairColor() != null) {
+                        query.like("hairColor.color", filter.getHairColor());
+                    }
+
+                    if (filter.getProfession() != null) {
+                        query.like("professions.profession", filter.getProfession());
+                    }
                 }
 
-                if (filter.getMinAge() != null) {
-                    query.greaterThanOrEqualTo("age", filter.getMinAge());
-                }
-
-                if (filter.getMinWeight() != null) {
-                    query.greaterThanOrEqualTo("weight", filter.getMinWeight());
-                }
-
-                if (filter.getMinHeight() != null) {
-                    query.greaterThanOrEqualTo("height", filter.getMinHeight());
-                }
-
-                if (filter.getMaxAge() != null) {
-                    query.lessThanOrEqualTo("age", filter.getMaxAge());
-                }
-
-                if (filter.getMaxWeight() != null) {
-                    query.lessThanOrEqualTo("weight", filter.getMaxWeight());
-                }
-
-                if (filter.getMaxHeight() != null) {
-                    query.lessThanOrEqualTo("height", filter.getMaxHeight());
-                }
-
-                if (filter.getHairColor() != null) {
-                    query.like("hairColor.color", filter.getHairColor());
-                }
-
-                if (filter.getProfession() != null) {
-                    query.like("professions.profession", filter.getProfession());
-                }
 
 
                 RealmResults<PersonDB> filter = query.findAll();
@@ -166,12 +179,10 @@ public class PersonListInteractorImpl implements PersonListInteractor {
                     if (colors.size() > 0) {
                         personColor = colors.get(0);
                     } else {
-//                        bgRealm.beginTransaction();
                         personColor = new ColorDB();
                         personColor.setId(UUID.randomUUID().toString());
                         personColor.setColor(person.getHairColor());
                         personColor = bgRealm.copyToRealm(personColor);
-//                        bgRealm.commitTransaction();
                     }
 
                     //Check if job is create to get it or create it
@@ -183,16 +194,14 @@ public class PersonListInteractorImpl implements PersonListInteractor {
                         if (professions.size() > 0) {
                             personProfession = professions.get(0);
                         } else {
-//                            bgRealm.beginTransaction();
                             personProfession = new ProfessionDB();
                             personProfession.setId(UUID.randomUUID().toString());
                             personProfession.setProfession(profession);
                             personProfession = bgRealm.copyToRealm(personProfession);
-//                            bgRealm.commitTransaction();
                         }
                         lstProfessions.add(personProfession);
                     }
-//                    bgRealm.beginTransaction();
+
                     PersonDB personDB = new PersonDB();
 
                     personDB.setId(person.getId());
@@ -228,20 +237,7 @@ public class PersonListInteractorImpl implements PersonListInteractor {
                     personDB.setProfessions(lstProfessions);
 
                     bgRealm.copyToRealm(personDB);
-//                    bgRealm.commitTransaction();
                 }
-
-                //second round to make friend relationships
-//                RealmResults<PersonDB> allPersonsDB = bgRealm.where(PersonDB.class).findAll();
-//                for (PersonDB personDB : allPersonsDB) {
-//                    List<String> lstNames = Arrays.asList(personDB.getFriendNames().split(","));
-//                    for (String friendName : lstNames) {
-//                        PersonDB friend = bgRealm.where(PersonDB.class).equalTo("name", friendName).findFirst();
-//                        if (friend != null) {
-//                            personDB.getFriendsNames().add(friend);
-//                        }
-//                    }
-//                }
 
             }
         }, new Realm.Transaction.OnSuccess() {
@@ -281,6 +277,7 @@ public class PersonListInteractorImpl implements PersonListInteractor {
             String jsonString = writer.toString();
             DTOTown dto = objectMapper.readValue(jsonString, DTOTown.class);
             List<Person> lstPerson = DTOPersonMapper.convertList(dto.getBrastlewark());
+            setDataToBD(lstPerson);
             callback.dataResponse(lstPerson);
         } catch (IOException e) {
             callback.dataError(e.getMessage());
